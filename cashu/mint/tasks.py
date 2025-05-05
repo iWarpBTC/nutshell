@@ -24,6 +24,7 @@ class LedgerTasks(SupportsDb, SupportsBackends, SupportsEvents):
             while True:
                 try:
                     async for checking_id in backend.paid_invoices_stream():
+                        logger.info(f"Invoice paid: {checking_id}")
                         await self.invoice_callback_dispatcher(checking_id)
                 except Exception as e:
                     logger.error(f"Error in invoice listener: {e}")
